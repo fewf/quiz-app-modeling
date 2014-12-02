@@ -130,7 +130,10 @@ For example to query by student for a particular class:
 - Filter further by asking only for Student Quiz Question Responses where the corresponding Quiz Question Reponse is associated with a Quiz Question associated with a Quiz that is associated with that particular Class.
 
 ### A principal can see a list of all the teachers within their school who are using the app.
-A logged-in principal can be given access to two pieces of data to find out which teachers are using the app. 1) They can be shown data pertaining to Quizzes, in particular the Persons who are creating quizzes. More importantly, 2) They can be shown data chronicling which Teachers lead the Class Sections that have Students that are associated with submitted Student Quiz Question Responses.
+A logged-in principal can be given access to two pieces of data to find out which teachers are using the app. 
+
+1. They can be shown data pertaining to Quizzes, in particular the Persons who are creating quizzes. 
+2. More importantly, they can be shown data chronicling which Teachers lead the Class Sections that have Students that are associated with submitted Student Quiz Question Responses.
 
 Questions to Help Development
 -----------------------------
