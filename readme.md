@@ -95,21 +95,25 @@ This connects `Quiz Questions` to a Quiz. The idea is to make `Quizzes` as flexi
 
 Each `Quiz Question Response` will be displayed as possible answers to the `Quiz Question` to which it is related. The correct answer is the one contained in the `Quiz Question`'s Correct Quiz Question Response ID. Responses can be displayed in random order, to keep the kids on their toes.
 
+### Student Quiz Question Response
+- Student Quiz Question Response ID (primary key)
+- Student ID (foreign key)
+- Quiz Question Response ID (foreign key)
+
+#### Optional Field
+- Date Submitted (see below)
+
+This is about the end goal of this modeling. When a student submits answer(s) to a quiz, for each question in the quiz, there will be a new instance of this class made. To evaluate a certain quiz taken by a certain student, the database would be queried to show all of these associated with the `Student` ID and where the sought Quiz's ID corresponds to the Quiz ID of the Quiz Question ID linked by the Quiz Question Response ID.
+
+Optionally there could be:
+
 ### Student Quiz
 - Student Quiz ID (primary key)
 - Student ID (foreign key)
 - Quiz ID (foreign key)
 - Date Submitted
 
-This model represents a submitted quiz by a student. It can be queried simply to find out how many quizzes a student has completed, and also keeps a record of when the student submitted the quiz.
-
-### Student Quiz Question Response
-- Student Quiz Question Response ID (primary key)
-- Student ID (foreign key)
-- Quiz Question ID (foreign key)
-- Quiz Question Response ID (foreign key)
-
-This is about the end goal of this modeling. When a student submits answer(s) to a quiz, for each question in the quiz, there will be a new instance of this class made. To evaluate a certain quiz taken by a certain student, the database would be queried to show all of these, where the sought Quiz's ID corresponds to the Quiz ID of the Quiz Question ID.
+This could be a header to `Student Quiz Question Response` the same way `Quiz` is a header to `Quiz Question`. This model represents a submitted quiz by a student. It can be queried simply to find out how many quizzes a student has completed, and also keeps a record of when the student submitted the quiz. It's main advantage is that it would be the singular source to put the information of when a `Student` completes a `Quiz` instead of each `Student Quiz Question Response` needing to be populated with that data. 
 
 Fulfillment of Broad Requirements
 ---------------------------------
@@ -118,9 +122,7 @@ Fulfillment of Broad Requirements
 Quizzes and their corresponding questions are stored, linked to the class they are being used in. When a Student logs on, Class Sections will be queried to find instances where the Student is associated. Quizzes will then be queried based on that Class Section's Class. These quizzes can then be displayed to the student.
 
 ### A student can submit a response to any of the quizzes, which can then be viewed by that student's teachers.
-If a Teacher logs in, they can be shown a live feed of quizzes being submitted
-
-they can be shown a menu of Students who are associated in the Class Section instances in which they are the designated Teacher. To choose a student from this menu would then query the model for Quizzes for that Class Section's Class, and then Quiz Questions based on those Quizzes and then Quiz Question Responses linked to that Quiz Question that are related to that Student.
+If a Teacher logs in, they can be shown a live feed of quizzes being submitted by Students who are associated in the Class Section instances in which they are the designated Teacher. Or, it could be queried by `Student` or by `Quiz`. Say with student, the application would query the model for Quizzes for that `Teacher's` `Class Section's` `Class`, and then from there the `Quiz Questions` and `Responses` based on those `Quizzes` and then Quiz Question Responses linked to that Quiz Question that are related to the Student in question.
 
 ### A principal can see a list of all the teachers within their school who are using the app.
 A logged-in principal can be given access to two pieces of data to find out which teachers are using the app. 1) They can be shown data pertaining to Quizzes, in particular the Persons who are creating quizzes. More importantly, 2) They can be shown data chronicling which Teachers lead the Class Sections that have Students that are associated with submitted Student Quizzes.
