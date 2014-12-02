@@ -14,7 +14,7 @@ Models
 #### Optional Fields
 - Any other biographical data desired.
 
-`Person` will keep a record for all people associated with our app. The following three classes will all extend information about this person, distinguishing them as Principals, Teachers` and `Students`. The `Person`'s username and credentials are stored here and used for logging in.
+`Person` will keep a record for all people associated with our app. The following three classes will all extend information about this person, distinguishing them as Principals, `Teachers` and `Students`. The `Person`'s username and credentials are stored here and used for logging in.
 
 ### Principal
 - Principal ID (primary key)
