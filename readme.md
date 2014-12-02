@@ -14,7 +14,7 @@ Models
 #### Optional Fields
 - Any other biographical data desired.
 
-`Person` will keep a record for all people associated with our app. The following three classes will all extend information about this person, distinguishing them as Principals, `Teachers` and `Students`. The `Person`'s username and credentials are stored here and used for logging in.
+Person will keep a record for all people associated with our app. The following three classes will all extend information about this person, distinguishing them as Principals, Teachers and Students. The Person's username and credentials are stored here and used for logging in.
 
 ### Principal
 - Principal ID (primary key)
@@ -24,7 +24,7 @@ Models
 - Date Active
 - Date Inactive
 
-Each row in `Principal` will designate the person associated with person_id as the school's principal. Keeping this separate from the `Teacher` table (instead of having a Faculty table with different types, for instance) ensures that this model will be robust should it be the case that a person can be both a principal and a teacher. Or, if there's a possibility that more than one person has `Principal`designation. If neither is a possibility, then one Faculty table could work.
+Each row in Principal will designate the person associated with person_id as the school's principal. Keeping this separate from the Teacher table (instead of having a Faculty table with different types, for instance) ensures that this model will be robust should it be the case that a person can be both a principal and a teacher. Or, if there's a possibility that more than one person has Principaldesignation. If neither is a possibility, then one Faculty table could work.
 
 ### Teacher
 - Teacher ID (primary key)
@@ -55,7 +55,7 @@ A row in this table designates the person as a student.
 - Maximum Students
 - Subject
 
-One row each for each class. This modeling assumes that the same class (say, "Algebra 1") can have several `Class Sections`. `Quizzes` will belong to `Classes`, not `Class Sections`. Therefore, if multiple `Teachers` teach different `Class Sections` of the same `Class` they can share quizzes. 
+One row each for each class. This modeling assumes that the same class (say, "Algebra 1") can have several Class Sections. Quizzes will belong to Classes, not Class Sections. Therefore, if multiple Teachers teach different Class Sections of the same Class they can share quizzes. 
 
 ### Class Sections
 - Class Section ID (primary key)
@@ -63,21 +63,21 @@ One row each for each class. This modeling assumes that the same class (say, "Al
 - Teacher ID (foreign key)
 - Period (or Start Time)
 
-This class represents an instance of a `Class`, being taught by a particular `Teacher` at a particular class Period.
+This class represents an instance of a Class, being taught by a particular Teacher at a particular class Period.
 
 ### Student Class Section
 - Student Class Section ID (primary key)
 - Student ID (foreign key)
 - Class Section ID (foreign key)
 
-This model ties a particular `Student` to a `Class Section`. In Django, this is defined as a Many to Many relationship and does not require an additional model.
+This model ties a particular Student to a Class Section. In Django, this is defined as a Many to Many relationship and does not require an additional model.
 
 ### Quiz
 - Quiz ID (primary key)
 - Class ID (foreign key)
 - Person ID (foreign key)
 
-Each row of this table represents a Quiz which is offered to those taking its associated `Class`. (If a certain quiz could be given to multiple classes, then that would require another model, something like "Quiz Class"). `Person` ID would keep track of who created the quiz.
+Each row of this table represents a Quiz which is offered to those taking its associated Class. (If a certain quiz could be given to multiple classes, then that would require another model, something like "Quiz Class"). Person ID would keep track of who created the quiz.
 
 ### Quiz Question
 - Quiz Question ID (primary key)
@@ -86,14 +86,14 @@ Each row of this table represents a Quiz which is offered to those taking its as
 - Question
 - Correct Quiz Question Response ID (foreign key)
 
-This connects `Quiz Questions` to a Quiz. The idea is to make `Quizzes` as flexible as possible with regard to number of questions, and number of possible responses. The part of the app that deals with `Quiz` creation and editing would allow for re-ordering the Sequence Numbers.
+This connects Quiz Questions to a Quiz. The idea is to make Quizzes as flexible as possible with regard to number of questions, and number of possible responses. The part of the app that deals with Quiz creation and editing would allow for re-ordering the Sequence Numbers.
 
 ### Quiz Question Response
 - Quiz Question Response ID (primary key)
 - Quiz Question ID (foreign key)
 - Response
 
-Each `Quiz Question Response` will be displayed as possible answers to the `Quiz Question` to which it is related. The correct answer is the one contained in the `Quiz Question`'s Correct Quiz Question Response ID. Responses can be displayed in random order, to keep the kids on their toes.
+Each Quiz Question Response will be displayed as possible answers to the Quiz Question to which it is related. The correct answer is the one contained in the Quiz Question's Correct Quiz Question Response ID. Responses can be displayed in random order, to keep the kids on their toes.
 
 ### Student Quiz Question Response
 - Student Quiz Question Response ID (primary key)
@@ -103,7 +103,7 @@ Each `Quiz Question Response` will be displayed as possible answers to the `Quiz
 #### Optional Field
 - Date Submitted (see below)
 
-This is about the end goal of this modeling. When a student submits answer(s) to a quiz, for each question in the quiz, there will be a new instance of this class made. To evaluate a certain quiz taken by a certain student, the database would be queried to show all of these associated with the `Student` ID and where the sought Quiz's ID corresponds to the Quiz ID of the Quiz Question ID linked by the Quiz Question Response ID.
+This is about the end goal of this modeling. When a student submits answer(s) to a quiz, for each question in the quiz, there will be a new instance of this class made. To evaluate a certain quiz taken by a certain student, the database would be queried to show all of these associated with the Student ID and where the sought Quiz's ID corresponds to the Quiz ID of the Quiz Question ID linked by the Quiz Question Response ID.
 
 Optionally there could be:
 
@@ -113,7 +113,7 @@ Optionally there could be:
 - Quiz ID (foreign key)
 - Date Submitted
 
-This could be a header to `Student Quiz Question Response` the same way `Quiz` is a header to `Quiz Question`. This model represents a submitted quiz by a student. It can be queried simply to find out how many quizzes a student has completed, and also keeps a record of when the student submitted the quiz. It's main advantage is that it would be the singular source to put the information of when a `Student` completes a `Quiz` instead of each `Student Quiz Question Response` needing to be populated with that data. 
+This could be a header to Student Quiz Question Response the same way Quiz is a header to Quiz Question. This model represents a submitted quiz by a student. It can be queried simply to find out how many quizzes a student has completed, and also keeps a record of when the student submitted the quiz. It's main advantage is that it would be the singular source to put the information of when a Student completes a Quiz instead of each Student Quiz Question Response needing to be populated with that data. 
 
 Fulfillment of Broad Requirements
 ---------------------------------
@@ -122,10 +122,14 @@ Fulfillment of Broad Requirements
 Quizzes and their corresponding questions are stored, linked to the class they are being used in. When a Student logs on, Class Sections will be queried to find instances where the Student is associated. Quizzes will then be queried based on that Class Section's Class. These quizzes can then be displayed to the student.
 
 ### A student can submit a response to any of the quizzes, which can then be viewed by that student's teachers.
-If a Teacher logs in, they can be shown a live feed of quizzes being submitted by Students who are associated in the Class Section instances in which they are the designated Teacher. Or, it could be queried by `Student` or by `Quiz`. Say with student, the application would query the model for Quizzes for that `Teacher's` `Class Section's` `Class`, and then from there the `Quiz Questions` and `Responses` based on those `Quizzes` and then Quiz Question Responses linked to that Quiz Question that are related to the Student in question.
+If a Teacher logs in, they can be shown a live feed of quizzes being submitted by Students who are associated in the Class Section instances in which they are the designated Teacher. Or, it could be queried by Student or by Quiz. 
+
+For example to query by student for a particular class:
+	- Take Student ID and query db for Student Quiz Question Responses where Student ID equals this ID.
+	- Filter further by asking only for Student Quiz Question Responses where the corresponding Quiz Question Reponse is associated with a Quiz Question associated with a Quiz that is associated with that particular Class.
 
 ### A principal can see a list of all the teachers within their school who are using the app.
-A logged-in principal can be given access to two pieces of data to find out which teachers are using the app. 1) They can be shown data pertaining to Quizzes, in particular the Persons who are creating quizzes. More importantly, 2) They can be shown data chronicling which Teachers lead the Class Sections that have Students that are associated with submitted Student Quizzes.
+A logged-in principal can be given access to two pieces of data to find out which teachers are using the app. 1) They can be shown data pertaining to Quizzes, in particular the Persons who are creating quizzes. More importantly, 2) They can be shown data chronicling which Teachers lead the Class Sections that have Students that are associated with submitted Student Quiz Question Responses.
 
 Questions to Help Development
 -----------------------------
@@ -134,3 +138,5 @@ The biggest question I had was a basic structural question: Is a quiz defined as
 Can a student retake a quiz? With the current structure, any retakes could overwrite previous attempts. Building a History of attempts would allow Teaehers to monitor progress more closely and could be desired.
 
 Can a Principal also be a Teacher?
+
+Is there any reason we want to keep this limited to Math questions? It would be simple to extend it to quizzes for any subject.
